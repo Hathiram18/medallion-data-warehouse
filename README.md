@@ -1,7 +1,12 @@
 # medallion-data-warehouse
 End-to-end PostgreSQL Data Warehouse implementing a Bronze–Silver–Gold Medallion Architecture with ETL pipelines, PL/pgSQL procedures, dimensional modeling, and data quality validation.
 
-## Project Architecture
+
+### Important
+
+There are **two sets of triple backticks** here.
+
+The outer one is just because I'm showing you Markdown code. In your actual README, use only this:
 
 ```mermaid
 flowchart TD
