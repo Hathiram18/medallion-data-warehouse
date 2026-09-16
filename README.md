@@ -2,32 +2,36 @@
 End-to-end PostgreSQL Data Warehouse implementing a Bronze–Silver–Gold Medallion Architecture with ETL pipelines, PL/pgSQL procedures, dimensional modeling, and data quality validation.
 
 
-### Important
-
-There are **two sets of triple backticks** here.
-
-The outer one is just because I'm showing you Markdown code. In your actual README, use only this:
+## 🏗️ Data Warehouse Architecture
 
 ```mermaid
 flowchart TD
 
-    CRM["CRM CSV Files<br/><br/>Customer<br/>Product<br/>Sales"]
-    ERP["ERP CSV Files<br/><br/>Customer Master<br/>Location<br/>Product Category"]
+    CRM["CRM Source Files<br/><br/>cust_info.csv<br/>prd_info.csv<br/>sales_details.csv"]
 
-    BRONZE["BRONZE LAYER<br/><br/>Raw Data"]
-    SILVER["SILVER LAYER<br/><br/>Cleaning & Standardization"]
-    GOLD["GOLD LAYER<br/><br/>Business-Ready Star Schema"]
+    ERP["ERP Source Files<br/><br/>CUST_AZ12.csv<br/>LOC_A101.csv<br/>PX_CAT_G1V2.csv"]
 
-    DC["Customer Dimension"]
-    DP["Product Dimension"]
-    FS["Sales Fact"]
+    B["🥉 BRONZE LAYER<br/><br/>Raw Data<br/>6 Source Tables"]
 
-    CRM --> BRONZE
-    ERP --> BRONZE
+    S["🥈 SILVER LAYER<br/><br/>Cleaned & Standardized Data<br/><br/>Deduplication • Validation • Transformation"]
 
-    BRONZE --> SILVER
-    SILVER --> GOLD
+    G["🥇 GOLD LAYER<br/><br/>Business-Ready Star Schema"]
 
-    GOLD --> DC
-    GOLD --> DP
-    GOLD --> FS
+    C["dim_customers<br/><br/>18,484 Customers"]
+
+    P["dim_products<br/><br/>295 Current Products"]
+
+    F["fact_sales<br/><br/>60,398 Sales Records"]
+
+    CRM --> B
+    ERP --> B
+
+    B --> S
+    S --> G
+
+    G --> C
+    G --> P
+    G --> F
+
+    C -. customer_key .-> F
+    P -. product_key .-> F
